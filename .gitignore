@@ -1,0 +1,13 @@
+# 빌드 결과물
+/bin/
+/target/
+*.class
+
+# IDE 설정
+.classpath
+.project
+.settings/
+
+# OS/에디터 임시파일
+.DS_Store
+*.swp
