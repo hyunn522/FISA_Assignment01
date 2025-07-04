@@ -79,11 +79,15 @@ public class Database {
 		return answers;
 	}
 	
+	public static Person getPerson() {
+		return person;
+	}
+	
 	public static void saveScore(int[] score) {
 		person.setScore(score);
 	}
 	
-	public static void getResult() {
-		
+	public static Job[] getJobs() {
+		return jobs;
 	}
 }

@@ -8,12 +8,12 @@ import controller.Controller;
 public class StartView {
 	static final Scanner sc= new Scanner(System.in);
 	
-	public static void setName() {
+	public static void setName() throws Exception {
 		String name = sc.nextLine();
 		Controller.setName(name);
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		System.out.println("YO 반갑다, 이름이 뭐야?");
 		setName();
 	}
