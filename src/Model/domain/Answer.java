@@ -14,4 +14,5 @@ public class Answer {
 	private String category;
 	private String text;
 	private String score;
+	
 }

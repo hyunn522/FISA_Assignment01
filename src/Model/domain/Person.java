@@ -10,7 +10,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Person {
+	
 	private String name;
-	private int score;
+	private int[] score; // 카테고리별 점수
 
 }

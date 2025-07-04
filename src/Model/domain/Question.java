@@ -13,5 +13,5 @@ public class Question {
 	
 	private String category;
 	private String text;
-
+	
 }
