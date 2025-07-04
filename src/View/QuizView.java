@@ -11,9 +11,10 @@ public class QuizView {
 		
 		for (Question quiz : questions) {
 			System.out.println(quiz.getText()+"???");
+			System.out.println("(네 또는 아니오로 대답해주세요!)");
 			String result = StartView.sc.nextLine();
 			
-			if(result.length() == 0) {
+			if(result.length() == 0  || !(result.equals("네") || result.equals("아니오"))) {
 				Controller.resetQuiz();
 			}else {
 				answerList.add(result);
