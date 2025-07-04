@@ -61,7 +61,29 @@ public class Database {
 				new Job(new int[] { 1, 2, 1, 2 }, List.of("텔레마케팅", "콜센터 상담", "팀 프로젝트 프리랜서")),
 				new Job(new int[] { 1, 2, 1, 1 }, List.of("온라인투자 영업", "SNS 마케팅 대행")),
 				new Job(new int[] { 1, 1, 1, 2 }, List.of("매장 판매직", "창업 운영 지원", "프로모션 스태프")),
-				new Job(new int[] { 1, 1, 1, 1 }, List.of("배달 라이더", "식사 도우미", "거리 홍보", "플리마켓 부스 운영")) };
-
+				new Job(new int[] { 1, 1, 1, 1 }, List.of("배달 라이더", "식사 도우미", "거리 홍보", "플리마켓 부스 운영")) 
+		};
+		
+		
+	}
+	
+	public static void setPerson(String name) {
+		person.setName(name);
+	}
+	
+	public static Question[] getQuestions() {
+		return questions;
+	}
+	
+	public static Answer[] getAnswers() {
+		return answers;
+	}
+	
+	public static void saveScore(int[] score) {
+		person.setScore(score);
+	}
+	
+	public static void getResult() {
+		
 	}
 }
