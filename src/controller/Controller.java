@@ -37,6 +37,7 @@ public class Controller {
 			System.exit(0);;
 		}
 		
+		System.out.println("-------------------------");
 		System.out.println("결과는~~~~~~???!");
 		
 		if(saveAnswerList.size() == 0) {
@@ -52,6 +53,8 @@ public class Controller {
 			FinishView.print(name+"님에게 어울리는 N잡은 " + sb);
 			
 		}
+		
+		System.out.println("-------------------------");
 	}
 	
 	
