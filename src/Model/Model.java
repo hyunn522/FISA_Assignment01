@@ -8,7 +8,6 @@ import Model.domain.Question;
 
 public class Model {
 	
-	private Database db = new Database();
 	
 	private static Model model = new Model();
 	
@@ -16,21 +15,30 @@ public class Model {
 	public static Model getModel() { return model; }
 	
 	public void setPerson(String name) throws Exception {
-		if (name.isEmpty()) throw new Exception("이름은 공백일 수 없습니다.");
-		db.setPerson(name);
+		
+		if (name.isEmpty()) {
+			throw new Exception("이름은 공백일 수 없습니다.");
+		}
+		
+		Database.setPerson(name);
+		
 	}
 	
 	public Question[] getQuestions() throws Exception {
-		Question[] questions = db.getQuestions();
+		Question[] questions = Database.getQuestions();
 		
-		if (questions.length == 0) throw new Exception("퀴즈 정보가 없습니다.");
+		if (questions.length == 0) {
+			throw new Exception("퀴즈 정보가 없습니다.");
+		}
 		return questions;
 	}
 	
 	public Answer[] getAnswers() throws Exception {
-		Answer[] answers = db.getAnswers();
+		Answer[] answers = Database.getAnswers();
 		
-		if (answers.length == 0) throw new Exception("정답 정보가 없습니다.");
+		if (answers.length == 0) {
+			throw new Exception("정답 정보가 없습니다.");
+		}
 		return answers;
 	}
 	
@@ -38,30 +46,37 @@ public class Model {
 		int[] score = new int[4]; // 카테고리별 점수
 		
 		int cur = 0;
+		String result = null;
+		
 		for (int i = 0; i < 8; i++) {
-			String result = results.get(i);
+			result = results.get(i);
 			if (i % 2 == 0) { // 홀수 번째 문항
-				if (result.equals("네")) cur = 1; 
+				if (result.equals("네")) {
+					cur = 1; 
+				}
 			} else { // 짝수 번째 문항
-				if (result.equals("아니오")) cur++;
+				if (result.equals("아니오")) {
+					cur++;
+				}
 				score[i / 2] = cur; // 카테고리에 해당하는 점수 입력
 				cur = 0; // 다음 카테고리를 위해 초기화
 			}
 		}
 		
-		db.saveScore(score);
+		Database.saveScore(score);
 	}
 	
 	// 니가 문제
 	public ArrayList<String> getResult() {
-		int[] personScores = db.getPerson().getScore(); // 입력한 점수 정보
-		Job[] jobs = db.getJobs(); // 기준 정보
+		int[] personScores = Database.getPerson().getScore(); // 입력한 점수 정보
+		Job[] jobs = Database.getJobs(); // 기준 정보
 		
 		for (int i = 0; i < 16; i++) {
 			boolean isPossible = true;
 			int[] curScores = jobs[i].getScore();
-			for (int j = 0; j < 4; j++) {
-				if (personScores[j] != curScores[j]) {
+			
+			for (int index = 0; index < 4; index++) {
+				if (personScores[index] != curScores[index]) {
 					isPossible = false;
 					break;
 				}
@@ -76,6 +91,8 @@ public class Model {
 			}
 		}
 		
-		return new ArrayList<String>();
+//		return new ArrayList<String>();
+		return null;//????
 	}
+	
 }
