@@ -6,13 +6,16 @@ import java.util.Arrays;
 import View.FinishView;
 import View.QuizView;
 import View.StartView;
+import Model.Model;
 
 public class Controller {
 	private static String name; 
-	private static String[] saveAnswerList; // TODO: 추후 타입 변경 예정
+	private static ArrayList<String> saveAnswerList;
+	
+	private static final Model model = Model.getModel();
 	
 //	퀴즈 리셋
-	public static void resetQuiz() {
+	public static void resetQuiz() throws Exception {
 		System.out.println("게임 다시 시작");
 		System.out.println("YO 반갑다, 이름이 뭐야?");
 		StartView.setName();
@@ -20,32 +23,38 @@ public class Controller {
 	
 	// 입력값 저장
 	public static void saveAnswerList(ArrayList<String> dataList) {
-		String[] list = dataList.toArray(new String[dataList.size()]);
-		int size=0;
-		for(String data : dataList){
-			list[size++] = data;
-		}
+//		String[] list = dataList.toArray(new String[dataList.size()]);
+//		int size=0;
+//		for(String data : dataList){
+//			list[size++] = data;
+//		}
+//		
+		model.saveScore(dataList);
+		saveAnswerList = model.getResult();
 		
-		saveAnswerList = list;
-
 		System.out.println("결과는~~~~~~???!");
-		System.out.println(Arrays.toString(list));
 		
-		if(saveAnswerList.length == 0) {
+		if(saveAnswerList.size() == 0) {
 			//TODO: throw 추가 예
 		}else {
 			// 결과값 출력
-			FinishView.print(name+" 님의 결과는~~?? 따따딸ㄴ~~~");
+			StringBuilder sb = new StringBuilder();
+			for (int i = 0; i < saveAnswerList.size(); i++) {
+				if (i < saveAnswerList.size() - 1) sb.append(saveAnswerList.get(i) + ", ");
+				else sb.append(saveAnswerList.get(i) + "입니다!");
+			}
+//			FinishView.print(name+" 님의 결과는~~?? 따따딸ㄴ~~~ " + saveAnswerList);
+			FinishView.print(name+"님에게 어울리는 N잡은 " + sb);
 			
 		}
 	}
 	
 	
 	//이름 세팅
-	public static void setName(String n) {
+	public static void setName(String n) throws Exception {
 		name = n;
-		System.out.println("controller !!");
-		System.out.println(name);
+//		System.out.println("controller !!");
+//		System.out.println(name);
 		
 		if(n.length() == 0) {
 			System.out.println("아 해줘.. 이름 내놔 뭐야?");
@@ -53,7 +62,8 @@ public class Controller {
 		}
 		else {
 			System.out.println("퀴즈 쓰따뚜");
-			QuizView.startQuiz();
+			model.setPerson(name);
+			QuizView.startQuiz(model.getQuestions());
 		}
 	}
 }

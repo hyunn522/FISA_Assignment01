@@ -45,6 +45,7 @@ public class Model {
 			} else { // 짝수 번째 문항
 				if (result.equals("아니오")) cur++;
 				score[i / 2] = cur; // 카테고리에 해당하는 점수 입력
+				System.out.println(score[i / 2]);
 				cur = 0; // 다음 카테고리를 위해 초기화
 			}
 		}
@@ -52,6 +53,7 @@ public class Model {
 		db.saveScore(score);
 	}
 	
+	// 니가 문제
 	public ArrayList<String> getResult() {
 		int[] personScores = db.getPerson().getScore(); // 입력한 점수 정보
 		Job[] jobs = db.getJobs(); // 기준 정보
@@ -67,7 +69,11 @@ public class Model {
 			}
 			
 			if (isPossible) {
-				return (ArrayList<String>) jobs[i].getName();
+				ArrayList<String> result = new ArrayList<String>();
+				for (String s : jobs[i].getName()) {
+					result.add(s);
+				}
+				return result;
 			}
 		}
 		
