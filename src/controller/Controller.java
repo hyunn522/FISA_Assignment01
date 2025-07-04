@@ -16,7 +16,7 @@ public class Controller {
 	
 //	퀴즈 리셋
 	public static void resetQuiz() throws Exception {
-		System.out.println("게임 다시 시작");
+		System.out.println("restart!");
 		System.out.println("YO 반갑다, 이름이 뭐야?");
 		StartView.setName();
 	}
@@ -31,6 +31,11 @@ public class Controller {
 //		
 		model.saveScore(dataList);
 		saveAnswerList = model.getResult();
+		
+		if (saveAnswerList.size() == 0) {
+			System.out.println("적절한 N잡을 찾지 못했어요 ㅜㅜ");
+			System.exit(0);;
+		}
 		
 		System.out.println("결과는~~~~~~???!");
 		

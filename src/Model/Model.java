@@ -45,7 +45,6 @@ public class Model {
 			} else { // 짝수 번째 문항
 				if (result.equals("아니오")) cur++;
 				score[i / 2] = cur; // 카테고리에 해당하는 점수 입력
-				System.out.println(score[i / 2]);
 				cur = 0; // 다음 카테고리를 위해 초기화
 			}
 		}
