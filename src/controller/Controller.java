@@ -25,33 +25,28 @@ public class Controller {
 	
 		model.saveScore(dataList);
 		saveAnswerList = model.getResult();
-		int count = saveAnswerList.size();
-		
-		if (count == 0) {
+
+		if (saveAnswerList == null || saveAnswerList.isEmpty()) {
 			System.out.println("적절한 N잡을 찾지 못했어요 ㅜㅜ");
 			System.exit(0);;
 		}
+		int count = saveAnswerList.size();
 		
 		System.out.println("-------------------------");
 		System.out.println("결과는~~~~~~???!");
 		
-		
-		if(count == 0) {
-			//TODO: throw 추가 예
-		}else {
-			// 결과값 출력
-			StringBuilder sb = new StringBuilder();
-			for (int i = 0; i < count; i++) {
-				if (i < count - 1) {
-					sb.append(saveAnswerList.get(i) + ", ");
-				}else {
-					sb.append(saveAnswerList.get(i) + "입니다!");
-				}
+
+		// 결과값 출력
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < count; i++) {
+			if (i < count - 1) {
+				sb.append(saveAnswerList.get(i) + ", ");
+			}else {
+				sb.append(saveAnswerList.get(i) + "입니다!");
 			}
-			FinishView.print(name+"님에게 어울리는 N잡은 " + sb);
-			
 		}
-		
+		FinishView.print(name+"님에게 어울리는 N잡은 " + sb);
+			
 		System.out.println("-------------------------");
 	}
 	
