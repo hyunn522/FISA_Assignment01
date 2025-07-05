@@ -52,7 +52,7 @@ public class Model {
 			result = results.get(i);
 			if (i % 2 == 0) { // 홀수 번째 문항
 				if (result.equals("네")) {
-					cur = 1; 
+					cur++;
 				}
 			} else { // 짝수 번째 문항
 				if (result.equals("아니오")) {
@@ -76,18 +76,17 @@ public class Model {
 			int[] curScores = jobs[i].getScore();
 			
 			for (int index = 0; index < 4; index++) {
-				if (personScores[index] != curScores[index]) {
+				int personScore = personScores[index];
+				int curScore = curScores[index];
+
+				if ((personScore > 0 && personScore != curScore) || (personScore == 0 && personScore + 1 != curScore)) {
 					isPossible = false;
 					break;
 				}
 			}
 			
 			if (isPossible) {
-				ArrayList<String> result = new ArrayList<String>();
-				for (String s : jobs[i].getName()) {
-					result.add(s);
-				}
-				return result;
+                return new ArrayList<String>(jobs[i].getName());
 			}
 		}
 		
