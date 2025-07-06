@@ -1,5 +1,7 @@
 package Model.domain;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,9 +11,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Question {
-	
-	private String category;
-	private String text;
+public class Job {
+
+	private int[] score;
+	private List<String> name;
 	
 }
