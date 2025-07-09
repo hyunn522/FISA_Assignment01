@@ -42,32 +42,24 @@ public class Model {
 		return answers;
 	}
 	
-	public void saveScore(ArrayList<String> results) {
+	public void saveScore(Answer[] userAnswers) {
 		int[] score = new int[4]; // 카테고리별 점수
-		
-		int cur = 0;
-		String result = null;
-		
-		for (int i = 0; i < 8; i++) {
-			result = results.get(i);
-			if (i % 2 == 0) { // 홀수 번째 문항
-				if (result.equals("네")) {
-					cur++;
+
+		Answer[] answer = Database.getAnswers();
+		for (int categoryIdx = 0; categoryIdx < 4; categoryIdx++) { // 카테고리 개수만큼
+			for (int questionIdx = 0; questionIdx < 2; questionIdx++) {
+				int scoreIdx = categoryIdx * 2 + questionIdx;
+				if (userAnswers[scoreIdx].equals(answer[scoreIdx])) {
+					score[categoryIdx]++;
 				}
-			} else { // 짝수 번째 문항
-				if (result.equals("아니오")) {
-					cur++;
-				}
-				score[i / 2] = cur; // 카테고리에 해당하는 점수 입력
-				cur = 0; // 다음 카테고리를 위해 초기화
 			}
 		}
 		
 		Database.saveScore(score);
 	}
 	
-	// 니가 문제
 	public ArrayList<String> getResult() {
+		// 사용자 점수에 따른 N잡 진단
 		int[] personScores = Database.getPerson().getScore(); // 입력한 점수 정보
 		Job[] jobs = Database.getJobs(); // 기준 정보
 		
