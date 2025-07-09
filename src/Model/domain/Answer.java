@@ -13,5 +13,13 @@ public class Answer {
 
 	private String category;
 	private String text;
-	
+
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof Answer) {
+			Answer a = (Answer) o;
+			return this.category.equals(a.category) && this.text.equals(a.text);
+		}
+		return false;
+	}
 }

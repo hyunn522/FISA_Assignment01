@@ -1,5 +1,6 @@
 package controller;
 
+import Model.domain.Answer;
 import java.util.ArrayList;
 
 import View.FinishView;
@@ -21,7 +22,7 @@ public class Controller {
 	}
 	
 	// 입력값 저장
-	public static void saveAnswerList(ArrayList<String> dataList) {
+	public static void saveAnswerList(Answer[] dataList) {
 	
 		model.saveScore(dataList);
 		saveAnswerList = model.getResult();
