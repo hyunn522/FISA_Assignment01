@@ -1,6 +1,5 @@
 package Model;
 
-
 import java.util.List;
 
 import Model.domain.Answer;
