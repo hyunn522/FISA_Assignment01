@@ -14,6 +14,6 @@ import lombok.Setter;
 public class Job {
 
 	private int[] score;
-	private List<String> name;
-	
+	private List<String> names;
+
 }
