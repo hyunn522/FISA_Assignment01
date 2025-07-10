@@ -4,86 +4,97 @@ import java.util.ArrayList;
 
 import Model.domain.Answer;
 import Model.domain.Job;
+import Model.domain.Person;
 import Model.domain.Question;
 
 public class Model {
 	
-	
-	private static Model model = new Model();
+	private static final Model model = new Model();
+	private final Database db = Database.getInstance();
 	
 	private Model() {}
-	public static Model getModel() { return model; }
+	
+	public static Model getModel() {
+		return model;
+	}
+	
+	public Person getPerson() {
+	    return db.getPerson();
+	}
 	
 	public void setPerson(String name) throws Exception {
-		
-		if (name.isEmpty()) {
-			throw new Exception("이름은 공백일 수 없습니다.");
+		if(name == null || name.trim().isEmpty()){
+			throw new IllegalArgumentException("이름은 공백일 수 없습니다.");
 		}
-		
-		Database.setPerson(name);
-		
+		db.setPersonName(name);
 	}
 	
 	public Question[] getQuestions() throws Exception {
-		Question[] questions = Database.getQuestions();
-		
-		if (questions.length == 0) {
+		Question[] questions = db.getQuestions();
+		if(questions == null || questions.length == 0) {
 			throw new Exception("퀴즈 정보가 없습니다.");
 		}
 		return questions;
 	}
 	
 	public Answer[] getAnswers() throws Exception {
-		Answer[] answers = Database.getAnswers();
-		
-		if (answers.length == 0) {
+		Answer[] answers = db.getAnswers();
+		if(answers == null || answers.length == 0) {
 			throw new Exception("정답 정보가 없습니다.");
 		}
 		return answers;
 	}
 	
 	public void saveScore(Answer[] userAnswers) {
-		int[] score = new int[4]; // 카테고리별 점수
-
-		Answer[] answer = Database.getAnswers();
-		for (int categoryIdx = 0; categoryIdx < 4; categoryIdx++) { // 카테고리 개수만큼
-			for (int questionIdx = 0; questionIdx < 2; questionIdx++) {
-				int scoreIdx = categoryIdx * 2 + questionIdx;
-				if (userAnswers[scoreIdx].equals(answer[scoreIdx])) {
-					score[categoryIdx]++;
-				}
-			}
-		}
 		
-		Database.saveScore(score);
+	    int[] score = new int[4];
+	    Answer[] correctAnswers = db.getAnswers();
+
+	    for (int i = 0; i < userAnswers.length; i++) {
+	        Answer userAnswer = userAnswers[i];
+	        String category = userAnswer.getCategory();
+
+	        int categoryIndex = switch (category) {
+	            case "성향" -> 0;
+	            case "활동" -> 1;
+	            case "근무" -> 2;
+	            case "목표" -> 3;
+	            default -> -1;
+	        };
+	        
+	        for (Answer correct : correctAnswers) {
+	            if (userAnswer.equals(correct)) {
+	                score[categoryIndex]++;
+	                break;
+	            }
+	        }
+	    }
+
+	    db.saveScore(score);
 	}
+
 	
 	public ArrayList<String> getResult() {
-		// 사용자 점수에 따른 N잡 진단
-		int[] personScores = Database.getPerson().getScore(); // 입력한 점수 정보
-		Job[] jobs = Database.getJobs(); // 기준 정보
-		
-		for (int i = 0; i < 16; i++) {
-			boolean isPossible = true;
-			int[] curScores = jobs[i].getScore();
-			
-			for (int index = 0; index < 4; index++) {
-				int personScore = personScores[index];
-				int curScore = curScores[index];
+	    int[] personScores = db.getPerson().getScore();
+	    Job[] jobs = db.getJobs();
 
-				if ((personScore > 0 && personScore != curScore) || (personScore == 0 && personScore + 1 != curScore)) {
-					isPossible = false;
-					break;
-				}
-			}
-			
-			if (isPossible) {
-                return new ArrayList<String>(jobs[i].getName());
-			}
-		}
-		
-//		return new ArrayList<String>();
-		return null;//????
+	    for (Job job : jobs) {
+	        int[] jobScore = job.getScore();
+	        boolean match = true;
+
+	        for (int i = 0; i < 4; i++) {
+	            if (personScores[i] != jobScore[i]) {
+	                match = false;
+	                break;
+	            }
+	        }
+
+	        if (match) {
+	            return new ArrayList<>(job.getNames());
+	        }
+	    }
+
+	    return new ArrayList<>();
 	}
-	
+
 }

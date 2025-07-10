@@ -22,4 +22,10 @@ public class Answer {
 		}
 		return false;
 	}
+	
+	@Override
+	public int hashCode() {
+	    return category.hashCode() + text.hashCode();
+	}
+
 }
