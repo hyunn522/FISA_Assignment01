@@ -10,11 +10,12 @@ import controller.Controller;
 public class QuizView {
 	
 	public static void startQuiz(Question[] questions) throws Exception {
-
-		Answer[] answers = new Answer[questions.length];
+		
+		int questionsCnt = questions.length;
+		Answer[] answers = new Answer[questionsCnt];
 		Scanner scanner = StartView.sc;
 		
-		for(int idx = 0; idx < questions.length; idx++) {
+		for(int idx = 0; idx < questionsCnt; idx++) {
 			Question quiz = questions[idx];
 			String input;
 			
