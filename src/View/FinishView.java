@@ -1,6 +1,5 @@
 package View;
 
-import java.util.List;
 
 import controller.Controller;
 

@@ -4,9 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
-import Model.domain.Answer;
 import Model.domain.Person;
 import util.DBUtil;
 
@@ -45,7 +43,7 @@ public class PersonDAO {
 	}
 
 	// 사람 저장
-	public boolean setPerson(String name) throws SQLException {
+	public int setPerson(String name) throws SQLException {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -53,17 +51,29 @@ public class PersonDAO {
 		try {
 			conn = DBUtil.getConnection();
 			
-	        pstmt = conn.prepareStatement("INSERT INTO person (name) VALUES (?)");
-	        pstmt.setString(1, name);
+			// 1. 시퀀스 값 먼저 조회
+			PreparedStatement pstmtSeq = conn.prepareStatement("SELECT person_seq.NEXTVAL FROM DUAL");
+			rs = pstmtSeq.executeQuery();
+			int id = 0;
+			if (rs.next()) {
+			    id = rs.getInt(1);
+			}
+			rs.close();
+			pstmtSeq.close();
 
-	        int result = pstmt.executeUpdate();
-	        
+			// 2. 조회한 ID를 사용해서 INSERT 실행
+			pstmt = conn.prepareStatement("INSERT INTO person (id, name) VALUES (?, ?)");
+			pstmt.setInt(1, id);
+			pstmt.setString(2, name);
+			int result = pstmt.executeUpdate();
+
+			
 	       if(result == 1) {
-	    	   return true;
+	    	   return id;
 	       }
 		} finally {
 			DBUtil.close(conn, pstmt);
 		}
-		return false;
+		return -1;
 	}
 }
