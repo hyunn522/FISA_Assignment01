@@ -7,7 +7,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import Model.domain.Answer;
-import Model.domain.Question;
 import util.DBUtil;
 
 public class AnswerDAO {

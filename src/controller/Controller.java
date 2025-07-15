@@ -9,7 +9,6 @@ import Model.PersonCategoryScoreDAO;
 import Model.PersonDAO;
 import Model.QuestionDAO;
 import Model.domain.Answer;
-import Model.domain.Job;
 import Model.domain.PersonAnswer;
 import Model.domain.PersonCategoryScore;
 import Model.domain.Question;
@@ -87,7 +86,6 @@ public class Controller {
 				// 카테고리 종류에 따른 구분
 				for (int type = 0; type < 2; type++) {
 					if (answerList.get(index - type).getAnswer().equals(rightAnswerList.get(index-type).getText())) {
-						System.out.println(answerList.get(index - type).getAnswer());
 						score++;
 					}
 				}
