@@ -4,9 +4,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
+import Model.domain.Answer;
 import Model.domain.Person;
-import Util.DBUtil;
+import util.DBUtil;
 
 public class PersonDAO {
 	
@@ -20,7 +22,7 @@ public class PersonDAO {
 	
 	
 	// 사람 불러오기
-	public Person getPerson(String name) throws SQLException {
+	public Person getPerson(int personId) throws SQLException {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -28,8 +30,8 @@ public class PersonDAO {
 		Person person = null;
 		try {
 			conn = DBUtil.getConnection();
-			pstmt = conn.prepareStatement("select * from person where name=?");
-			pstmt.setString(1, name);
+			pstmt = conn.prepareStatement("select * from person where id=?");
+			pstmt.setInt(1, personId);
 			rs = pstmt.executeQuery();
 			
 			if (rs.next()) {
@@ -43,23 +45,30 @@ public class PersonDAO {
 	}
 
 	// 사람 저장
-	public boolean setPerson(String name) throws SQLException {
+	public int setPerson(String name) throws SQLException {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
 		try {
 			conn = DBUtil.getConnection();
-			pstmt = conn.prepareStatement("insert into person (name) values (?)");
-			pstmt.setString(1, name);
-			
-			int result = pstmt.executeUpdate();
-			if (result == 1) {
-				return true;
-			}
+	        pstmt = conn.prepareStatement(
+	            "INSERT INTO person (name) VALUES (?)", 
+	            Statement.RETURN_GENERATED_KEYS
+	        );
+	        pstmt.setString(1, name);
+
+	        int result = pstmt.executeUpdate();
+	        if (result == 1) {
+	            rs = pstmt.getGeneratedKeys();
+	            if (rs.next()) {
+	                return rs.getInt(1);  // 자동 생성된 ID 반환
+	            }
+	        }
 		} finally {
 			DBUtil.close(conn, pstmt);
 		}
 		
-		return false;
+		return -1; // insert 실패
 	}
 }

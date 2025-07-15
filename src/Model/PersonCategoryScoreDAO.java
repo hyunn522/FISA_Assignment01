@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import Model.domain.PersonCategoryScore;
-import Util.DBUtil;
+import util.DBUtil;
 
 public class PersonCategoryScoreDAO {
 	
@@ -20,7 +20,7 @@ public class PersonCategoryScoreDAO {
 	}
 	
 	// 각 카테고리별 사람 정보 저장
-	public boolean getAnswers(int personId, ArrayList<PersonCategoryScore> scores) throws SQLException{
+	public boolean saveAnswer(int personId, ArrayList<PersonCategoryScore> scores) throws SQLException{
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;

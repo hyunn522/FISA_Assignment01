@@ -1,6 +1,8 @@
 package View;
 
 import Model.domain.Answer;
+import Model.domain.PersonAnswer;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -13,17 +15,12 @@ public class QuizView {
 //	public static ArrayList<String> answerArrayList =  null;
 
 	// 시작
-	public static void start() {
-		ArrayList<String> answerArrayList = new ArrayList<>();
+	public static void start(int personId) {
+		ArrayList<PersonAnswer> answerArrayList = new ArrayList<>();
 		final Scanner sc = new Scanner(System.in);
 		
-		//TODO: 서형언니 코드랑 연동하고 나서 주석 풀기
-//		ArrayList<Question> resultList =  Controller.getQuizs();
-		
-		ArrayList<Question> resultList = new ArrayList<>(
-				Arrays.asList(new Question(1, "dd", "ddd"),new Question(1, "dd", "ddd"),new Question(1, "dd", "ddd"),new Question(1, "dd", "ddd"),new Question(1, "dd", "ddd"),new Question(1, "dd", "ddd"),new Question(1, "dd", "ddd"),new Question(1, "dd", "ddd"))
-				);
-		
+		ArrayList<Question> resultList =  Controller.getQuizs();
+	
 		for (Question question : resultList) {
 			System.out.println(question.getText()+"?");
 			String answer =  sc.nextLine().trim();
@@ -33,11 +30,12 @@ public class QuizView {
 				answer = sc.nextLine().trim();
 			}
 			
-			answerArrayList.add(answer);	
+			answerArrayList.add(new PersonAnswer(question.getCategory(), answer));	
 		}
 		
 		// 값 저장
-		Controller.save(answerArrayList);
+		Controller.save(personId, answerArrayList);
 	}
+
 	
 }
