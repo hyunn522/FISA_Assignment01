@@ -2,43 +2,42 @@ package View;
 
 import Model.domain.Answer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 import Model.domain.Question;
 //import controller.Controller;
+import controller.Controller;
 
 public class QuizView {
-	
-	public static void startQuiz(Question[] questions) throws Exception {
+//	public static ArrayList<String> answerArrayList =  null;
+
+	// 시작
+	public static void start() {
+		ArrayList<String> answerArrayList = new ArrayList<>();
+		final Scanner sc = new Scanner(System.in);
 		
-		int questionsCnt = questions.length;
-		Answer[] answers = new Answer[questionsCnt];
-		Scanner scanner = StartView.sc;
+		//TODO: 서형언니 코드랑 연동하고 나서 주석 풀기
+//		ArrayList<Question> resultList =  Controller.getQuizs();
 		
-		for(int idx = 0; idx < questionsCnt; idx++) {
-			Question quiz = questions[idx];
-			String input;
+		ArrayList<Question> resultList = new ArrayList<>(
+				Arrays.asList(new Question(1, "dd", "ddd"),new Question(1, "dd", "ddd"),new Question(1, "dd", "ddd"),new Question(1, "dd", "ddd"),new Question(1, "dd", "ddd"),new Question(1, "dd", "ddd"),new Question(1, "dd", "ddd"),new Question(1, "dd", "ddd"))
+				);
+		
+		for (Question question : resultList) {
+			System.out.println(question.getText()+"?");
+			String answer =  sc.nextLine().trim();
 			
-			while(true) {
-				System.out.println(quiz.getText() + "?");
-				System.out.println("(네 or 아니오)");
-				
-				input = scanner.nextLine().trim();
-				
-				if(isValidAnswer(input)) {
-					break;
-				}
-				
-				System.out.println("잘못된 입력입니다. 다시 입력해주세요.");
+			if(answer.isEmpty()) {
+				System.out.println("답변을 입력해주세요~");
+				answer = sc.nextLine().trim();
 			}
 			
-//			answers[idx] = new Answer(quiz.getCategory(), input);
+			answerArrayList.add(answer);	
 		}
 		
-//		Controller.saveAnswerList(answers);
+		// 값 저장
+		Controller.save(answerArrayList);
 	}
 	
-	private static boolean isValidAnswer(String input) {
-        return input.equals("네") || input.equals("아니오");
-    }
 }
