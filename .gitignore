@@ -11,3 +11,6 @@
 # OS/에디터 임시파일
 .DS_Store
 *.swp
+
+# properties
+dbinfo.properties
