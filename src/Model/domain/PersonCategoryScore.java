@@ -5,13 +5,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
-public class Question {
+public class PersonCategoryScore {
 	private int id;
+	private int personId;
 	private String category;
-	private String text;
-	
+	private int score;
 }
