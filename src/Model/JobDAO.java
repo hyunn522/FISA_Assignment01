@@ -11,18 +11,18 @@ public class JobDAO {
 
 	private static JobDAO jobDAO = new JobDAO();
 
-	private JobDAO() {
-	}
+	private JobDAO() {}
 
 	public static JobDAO getJobDAO() {
 		return jobDAO;
 	}
 
 	public String getJob(int personId) throws SQLException {
+		
 	    String job = null;
 
 	    Connection conn = null;
-	    PreparedStatement pstmt = null;
+	    PreparedStatement psmt = null;
 	    ResultSet rs = null;
 
 	    try {
@@ -35,21 +35,20 @@ public class JobDAO {
 	            "AND c_work = (SELECT score FROM PersonCategoryScore WHERE category = '근무' AND personid = ?) " +
 	            "AND c_goal = (SELECT score FROM PersonCategoryScore WHERE category = '목표' AND personid = ?)";
 
-	        pstmt = conn.prepareStatement(sql);
+	        psmt = conn.prepareStatement(sql);
 
-	        // 동일한 personId를 네 번 바인딩
 	        for (int i = 1; i <= 4; i++) {
-	            pstmt.setInt(i, personId);
+	            psmt.setInt(i, personId);
 	        }
 
-	        rs = pstmt.executeQuery();
+	        rs = psmt.executeQuery();
 
 	        if (rs.next()) {
 	            job = rs.getString("content");
 	        }
 
 	    } finally {
-	        DBUtil.close(conn, pstmt, rs);
+	        DBUtil.close(conn, psmt, rs);
 	    }
 
 	    return job;

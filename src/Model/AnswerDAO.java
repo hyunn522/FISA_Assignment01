@@ -7,6 +7,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import Model.domain.Answer;
+
 import util.DBUtil;
 
 public class AnswerDAO {
@@ -19,8 +20,8 @@ public class AnswerDAO {
 		return answerDAO;
 	}
 	
-	// 질문에 대한 모든 정답 반환
 	public ArrayList<Answer> getAnswers() throws SQLException{
+		
 		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rs = null;

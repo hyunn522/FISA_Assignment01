@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.IOException;
 import java.sql.SQLException;
 
 import java.util.ArrayList;
@@ -32,12 +33,12 @@ public class Controller {
 			return personDAO.getPerson(personId).getName();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			FailView.print("이름 불러오기를 실패했어요 ㅜㅜ");
+			FailView.print("이름 불러오기를 실패했어요.");
 		}
 		return null;
 	}
 	
-	public static void setName(String name) {
+	public static void setName(String name) throws IOException {
 		if (name != null && name.length() != 0) {
 			try {
 				int personId = personDAO.setPerson(name);
@@ -53,15 +54,13 @@ public class Controller {
 	}
 
 	public static ArrayList<Question> getQuizs() {
-		// 퀴즈 데이터 불러오기
 		ArrayList<Question> datas = null;
 		try {
 			datas = questionDao.getQuestions();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			FailView.print("문제를 받아오지 못했어요ㅜㅜ 다시 시도해주세요");
+			FailView.print("문제를 받아오지 못했어요. 다시 시도해주세요");
 		}
-
 		return datas;
 	}
 
@@ -71,7 +70,7 @@ public class Controller {
 			answers = answerDAO.getAnswers();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			FailView.print("N잡을 구할 수 없어요 ㅜ");
+			FailView.print("N잡을 구할 수 없어요.");
 		}
 		return answers;
 
@@ -134,11 +133,6 @@ public class Controller {
 	    }
 	}
 
-
-
-
-	
-	
 	public static String getJobs(int personId) {
 	    try {
 	        String jobs = jobDAO.getJob(personId);
@@ -146,8 +140,7 @@ public class Controller {
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	    }
-	    return null; // 굳이 반환 안 해도 됨
+	    return null;
 	}
-
 
 }
