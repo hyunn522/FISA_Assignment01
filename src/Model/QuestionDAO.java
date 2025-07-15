@@ -36,7 +36,7 @@ public class QuestionDAO {
 				questions.add(new Question(rs.getInt(1), rs.getString(2), rs.getString(3)));
 			}
 		} finally {
-			DBUtil.close(conn, stmt);
+			DBUtil.close(conn, stmt, rs);
 		}
 		
 		return questions;

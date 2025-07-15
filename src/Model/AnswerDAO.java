@@ -7,7 +7,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import Model.domain.Answer;
-import Model.domain.Question;
 import util.DBUtil;
 
 public class AnswerDAO {
@@ -37,7 +36,7 @@ public class AnswerDAO {
 				answers.add(new Answer(rs.getInt(1), rs.getInt(2), rs.getString(3)));
 			}
 		} finally {
-			DBUtil.close(conn, stmt);
+			DBUtil.close(conn, stmt, rs);
 		}
 		
 		return answers;

@@ -4,14 +4,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 
-import Model.domain.Answer;
-import Model.domain.Job;
 import util.DBUtil;
 
 public class JobDAO {
+
 	private static JobDAO jobDAO = new JobDAO();
 
 	private JobDAO() {
@@ -22,39 +19,40 @@ public class JobDAO {
 	}
 
 	public String getJob(int personId) throws SQLException {
-		String job = null;
+	    String job = null;
 
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try {
-			conn = DBUtil.getConnection();
-			pstmt = conn.prepareStatement(
-					"select * from Job where c_personality=(select score from PersonCategoryScore where category = '성향' and person_id = ? ) and "
-							+ "c_activity=(select score from PersonCategoryScore where category = '활동' and person_id = ? )"
-							+ "c_work=(select score from PersonCategoryScore where category = '근무' and person_id = ? )"
-							+ "c_goal=(select score from PersonCategoryScore where category = '목표' and person_id = ? )"	
-					);
-			
-			
-			pstmt.setInt(1, personId);
-			pstmt.setInt(2, personId);
-			pstmt.setInt(3, personId);
-			pstmt.setInt(4, personId);
-			rs = pstmt.executeQuery();
-			
+	    Connection conn = null;
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
 
-			
-			while (rs.next()) {
-				job = rs.getString("content");
-			}
+	    try {
+	        conn = DBUtil.getConnection();
 
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			DBUtil.close(conn, pstmt, rs);
-		}
-		return job;
+	        String sql = 
+	            "SELECT * FROM Job " +
+	            "WHERE c_personality = (SELECT score FROM PersonCategoryScore WHERE category = '성향' AND personid = ?) " +
+	            "AND c_activity = (SELECT score FROM PersonCategoryScore WHERE category = '활동' AND personid = ?) " +
+	            "AND c_work = (SELECT score FROM PersonCategoryScore WHERE category = '근무' AND personid = ?) " +
+	            "AND c_goal = (SELECT score FROM PersonCategoryScore WHERE category = '목표' AND personid = ?)";
 
+	        pstmt = conn.prepareStatement(sql);
+
+	        // 동일한 personId를 네 번 바인딩
+	        for (int i = 1; i <= 4; i++) {
+	            pstmt.setInt(i, personId);
+	        }
+
+	        rs = pstmt.executeQuery();
+
+	        if (rs.next()) {
+	            job = rs.getString("content");
+	        }
+
+	    } finally {
+	        DBUtil.close(conn, pstmt, rs);
+	    }
+
+	    return job;
 	}
+
 }

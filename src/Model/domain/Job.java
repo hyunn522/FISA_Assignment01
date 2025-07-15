@@ -12,11 +12,12 @@ import lombok.ToString;
 @Setter
 @ToString
 public class Job {
+	
 	private int id;
-	private int cPersonality;
-	private int cActivity;
-	private int cWork;
-	private int cGoal;
-	private String content;
-
+	private int personality;
+	private int activity;
+	private int work;
+	private int goal;
+	private String recommends;
+	
 }

@@ -12,6 +12,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class Question {
+	
 	private int id;
 	private String category;
 	private String text;

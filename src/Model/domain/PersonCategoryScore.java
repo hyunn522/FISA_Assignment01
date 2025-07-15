@@ -10,14 +10,10 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PersonCategoryScore {
+	
 	private int id;
 	private int personId;
 	private String category;
 	private int score;
 	
-	public PersonCategoryScore(int personId, String category, int score) {
-		this.personId = personId;
-		this.category = category;
-		this.score = score;
-	}
 }
