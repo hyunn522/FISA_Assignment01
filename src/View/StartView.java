@@ -2,35 +2,24 @@ package View;
 
 import java.util.Scanner;
 
+import controller.Controller;
+
 //import controller.Controller;
 
 // 기본 페이지
 public class StartView {
-	
-	static final Scanner sc= new Scanner(System.in);
-	
-	public static void setName() throws Exception {
-		String name;
+	public static void main(String[] args) {
+		String inputName = null;
 		
-		while(true) {
-			name = sc.nextLine().trim();
-			
-			if(isValidName(name)) {
-				break;
-			}
-			
-			System.out.println("공백없이 이름을 입력해주세요!");
-		}
-		
-//		Controller.setName(name);
-	}
-	
-	private static boolean isValidName(String input) {
-        return input != null && !input.trim().isEmpty();
-    }
+		System.out.println("성함이 어떻게 되시나요?");
+		final Scanner sc = new Scanner(System.in);
 
-    public static void main(String[] args) throws Exception {
-        System.out.println("성함이 어떻게 되시나요?");
-        setName();
-    }
+		inputName = sc.nextLine().trim();
+		
+		while(inputName.isEmpty()) {
+			System.out.println("성함을 다시 입력해주세요");
+			inputName = sc.nextLine().trim();
+		}
+		Controller.setName(inputName);
+	}
 }
