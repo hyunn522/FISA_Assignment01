@@ -1,21 +1,44 @@
 package Model;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import Model.domain.Question;
+import Util.DBUtil;
 
 public class QuestionDAO {
-	private QuestionDAO questionDAO = new QuestionDAO();
+
+	private static QuestionDAO questionDao = new QuestionDAO();
 	
 	private QuestionDAO() {}
 	
-	public QuestionDAO getQuestionDAO() {
-		return questionDAO;
-	}
-	
-	// 질문 받아오기
-	public ArrayList<Question> getQuestions() {
-		return null;
+	public static QuestionDAO getQuestionDao() {
+		return questionDao;
 	}
 
+	// 모든 질문 반환
+	public ArrayList<Question> getQuestions() throws SQLException {
+		Connection conn = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+		
+		ArrayList<Question> questions = null;
+		try {
+			conn = DBUtil.getConnection();
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery("select * from question");
+			
+			questions = new ArrayList<>();
+			while (rs.next()) {
+				questions.add(new Question(rs.getInt(1), rs.getString(2), rs.getString(3)));
+			}
+		} finally {
+			DBUtil.close(conn, stmt);
+		}
+		
+		return questions;
+	}
 }
