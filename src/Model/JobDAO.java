@@ -30,12 +30,13 @@ public class JobDAO {
 		try {
 			conn = DBUtil.getConnection();
 			pstmt = conn.prepareStatement(
-					"select * from Job where c_personality=(select score from PersonCategoryScore where category = '성향' and person_id = ? ) and "
-							+ "c_activity=(select score from PersonCategoryScore where category = '활동' and person_id = ? )"
-							+ "c_work=(select score from PersonCategoryScore where category = '근무' and person_id = ? )"
-							+ "c_goal=(select score from PersonCategoryScore where category = '목표' and person_id = ? )"	
-					);
-			
+				    "SELECT * FROM Job WHERE " +
+				    "c_personality = (SELECT score FROM PersonCategoryScore WHERE category = '성향' AND PERSONID = ?) AND " +
+				    "c_activity = (SELECT score FROM PersonCategoryScore WHERE category = '활동' AND PERSONID = ?) AND " +
+				    "c_work = (SELECT score FROM PersonCategoryScore WHERE category = '근무' AND PERSONID = ?) AND " +
+				    "c_goal = (SELECT score FROM PersonCategoryScore WHERE category = '목표' AND PERSONID = ?)"
+				);
+
 			
 			pstmt.setInt(1, personId);
 			pstmt.setInt(2, personId);

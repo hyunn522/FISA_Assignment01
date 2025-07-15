@@ -79,9 +79,10 @@ public class Controller {
 		int index = 0;
 		ArrayList<PersonCategoryScore> scoreList = new ArrayList<>();
 		ArrayList<Answer> rightAnswerList = getAnswers(); // 정답목록
+
 		
+		int score = 0;
 		for (PersonAnswer answer : answerList) {
-			int score = 0;
 			if (index % 2 != 0) {
 				// 카테고리 종류에 따른 구분
 				for (int type = 0; type < 2; type++) {
@@ -89,20 +90,20 @@ public class Controller {
 						System.out.println(answerList.get(index - type).getAnswer());
 						score++;
 					}
-
-					scoreList.add(new PersonCategoryScore(personId, answer.getCategory(), score == 0 ? 1 : score));
-					try {
-						personCategoryScoreDAO.saveAnswer(personId, scoreList);
-					} catch (SQLException e) {
-						e.printStackTrace();
-						FailView.print("결과값이 이상이 있어요. 다시 시도해주세요!");
-					}
+				}
+				scoreList.add(new PersonCategoryScore(personId, answer.getCategory(), score == 0 ? 1 : score));
+			try {
+					personCategoryScoreDAO.saveAnswer(personId, answer.getCategory(), score == 0 ? 1 : score);
+					score = 0;
+				} catch (SQLException e) {
+					e.printStackTrace();
+					FailView.print("결과값이 이상이 있어요. 다시 시도해주세요!");
 				}
 			}
 			index++;
 		}
-		
 		FinishView.getResult(personId);
+		
 	}
 
 
