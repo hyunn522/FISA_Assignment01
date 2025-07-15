@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import Model.domain.Question;
-import controller.Controller;
+//import controller.Controller;
 
 public class QuizView {
 	
@@ -32,10 +32,10 @@ public class QuizView {
 				System.out.println("잘못된 입력입니다. 다시 입력해주세요.");
 			}
 			
-			answers[idx] = new Answer(quiz.getCategory(), input);
+//			answers[idx] = new Answer(quiz.getCategory(), input);
 		}
 		
-		Controller.saveAnswerList(answers);
+//		Controller.saveAnswerList(answers);
 	}
 	
 	private static boolean isValidAnswer(String input) {

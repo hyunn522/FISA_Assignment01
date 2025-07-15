@@ -2,7 +2,7 @@ package View;
 
 import java.util.Scanner;
 
-import controller.Controller;
+//import controller.Controller;
 
 // 기본 페이지
 public class StartView {
@@ -22,7 +22,7 @@ public class StartView {
 			System.out.println("공백없이 이름을 입력해주세요!");
 		}
 		
-		Controller.setName(name);
+//		Controller.setName(name);
 	}
 	
 	private static boolean isValidName(String input) {
