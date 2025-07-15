@@ -20,7 +20,7 @@ public class PersonCategoryScoreDAO {
 	}
 	
 	// 각 카테고리별 사람 정보 저장
-	public boolean saveAnswer(int personId, ArrayList<PersonCategoryScore> scores) throws SQLException{
+	public boolean saveAnswer(int personId, String category, int score) throws SQLException{
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -28,16 +28,16 @@ public class PersonCategoryScoreDAO {
 		try {
 	        conn = DBUtil.getConnection();
 	        pstmt = conn.prepareStatement("INSERT INTO personcategoryscore (personid, category, score) VALUES (?, ?, ?)");
-	        int resultCnt = 0;
+//	        int resultCnt = 0;
 	        
-	        for (PersonCategoryScore score : scores) {
+//	        for (PersonCategoryScore score : scores) {
 	            pstmt.setInt(1, personId);
-	            pstmt.setString(2, score.getCategory());
-	            pstmt.setInt(3, score.getScore());
-	            resultCnt += pstmt.executeUpdate();
-	        }
+	            pstmt.setString(2, category);
+	            pstmt.setInt(3, score);
+	            int result = pstmt.executeUpdate();
+//	        }
 
-	        if (resultCnt == 4) {
+	        if (result == 1) {
 	        	return true;
 	        }
 		} finally {

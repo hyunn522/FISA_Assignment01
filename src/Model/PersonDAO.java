@@ -45,30 +45,25 @@ public class PersonDAO {
 	}
 
 	// 사람 저장
-	public int setPerson(String name) throws SQLException {
+	public boolean setPerson(String name) throws SQLException {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
 		try {
 			conn = DBUtil.getConnection();
-	        pstmt = conn.prepareStatement(
-	            "INSERT INTO person (name) VALUES (?)", 
-	            Statement.RETURN_GENERATED_KEYS
-	        );
+			
+	        pstmt = conn.prepareStatement("INSERT INTO person (name) VALUES (?)");
 	        pstmt.setString(1, name);
 
 	        int result = pstmt.executeUpdate();
-	        if (result == 1) {
-	            rs = pstmt.getGeneratedKeys();
-	            if (rs.next()) {
-	                return rs.getInt(1);  // 자동 생성된 ID 반환
-	            }
-	        }
+	        
+	       if(result == 1) {
+	    	   return true;
+	       }
 		} finally {
 			DBUtil.close(conn, pstmt);
 		}
-		
-		return -1; // insert 실패
+		return false;
 	}
 }
