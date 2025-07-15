@@ -18,7 +18,7 @@ public class Model {
 		
 		if (name.isEmpty()) {
 			throw new Exception("이름은 공백일 수 없습니다.");
-		}
+		}   
 		
 		Database.setPerson(name);
 		
