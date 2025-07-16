@@ -17,14 +17,15 @@ import View.FinishView;
 import View.QuizView;
 
 public class Controller {
+	
 	private static JobDAO jobDAO = JobDAO.getJobDAO();
 	private static PersonDAO personDAO = PersonDAO.getPersonDAO();
 	private static QuestionDAO questionDao = QuestionDAO.getQuestionDao();
 	private static PersonCategoryScoreDAO personCategoryScoreDAO = PersonCategoryScoreDAO.getPersonCategoryScoreDAO();
 	private static AnswerDAO answerDAO = AnswerDAO.getAnswerDao();
 
-	
 	public static String getName(int personId) {
+		
 		try {
 			return personDAO.getPerson(personId).getName();
 		} catch (SQLException e) {
@@ -32,13 +33,15 @@ public class Controller {
 			FailView.print("이름 불러오기를 실패했어요 ㅜㅜ");
 		}
 		return null;
+		
 	}
+
 	
 	public static void setName(String name) {
+
 		if (name != null && name.length() != 0) {
 			try {
-				int personId = personDAO.setPerson(name);
-				QuizView.start(personId);
+				QuizView.start(personDAO.setPerson(name));
 			} catch (SQLException e) {
 				FailView.print("저장을 실패했어요. 다시 시작해주세요.");
 				e.printStackTrace();
@@ -49,6 +52,7 @@ public class Controller {
 
 	}
 
+	
 	public static ArrayList<Question> getQuizs() {
 		// 퀴즈 데이터 불러오기
 		ArrayList<Question> datas = null;
@@ -79,18 +83,20 @@ public class Controller {
 		ArrayList<PersonCategoryScore> scoreList = new ArrayList<>();
 		ArrayList<Answer> rightAnswerList = getAnswers(); // 정답목록
 
-		
 		int score = 0;
 		for (PersonAnswer answer : answerList) {
 			if (index % 2 != 0) {
 				// 카테고리 종류에 따른 구분
 				for (int type = 0; type < 2; type++) {
-					if (answerList.get(index - type).getAnswer().equals(rightAnswerList.get(index-type).getText())) {
+					 // 정답
+					String rightAnswer = rightAnswerList.get(index - type).getText();
+					
+					if (answerList.get(index - type).getAnswer().equals(rightAnswer)) {
 						score++;
 					}
 				}
 				scoreList.add(new PersonCategoryScore(personId, answer.getCategory(), score == 0 ? 1 : score));
-			try {
+				try {
 					personCategoryScoreDAO.saveAnswer(personId, answer.getCategory(), score == 0 ? 1 : score);
 					score = 0;
 				} catch (SQLException e) {
@@ -100,22 +106,23 @@ public class Controller {
 			}
 			index++;
 		}
-		FinishView.getResult(personId);
 		
+		Controller.getJobs(personId);
 	}
 
-
-	
-	
-	public static String getJobs(int personId) {
+	public static void getJobs(int personId) {
 		try {
-			String jobs = jobDAO.getJob(personId);
-			
-			FinishView.printResult(getName(personId), jobs);
+
+			FinishView.printResult(getName(personId), jobDAO.getJob(personId));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return null;
 	}
 
 }
+
+
+
+
+
+
