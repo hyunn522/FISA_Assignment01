@@ -26,7 +26,7 @@ public class QuizView {
 			String answer =  sc.nextLine().trim();
 			
 			if(answer.isEmpty()) {
-				System.out.println("답변을 입력해주세요~");
+				System.out.println("답변을 입력해주세요~\n(네 또는 아니오로 답해주세요!)");
 				answer = sc.nextLine().trim();
 			}
 			
