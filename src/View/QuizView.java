@@ -1,12 +1,9 @@
 package View;
 
-import Model.domain.Answer;
-import Model.domain.PersonAnswer;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 
+import Model.domain.PersonAnswer;
 import Model.domain.Question;
 //import controller.Controller;
 import controller.Controller;

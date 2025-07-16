@@ -12,13 +12,13 @@ public class StartView {
 		String inputName = null;
 		
 		System.out.println("성함이 어떻게 되시나요?");
-		final Scanner sc = new Scanner(System.in);
+		final Scanner SC = new Scanner(System.in);
 
-		inputName = sc.nextLine().trim();
+		inputName = SC.nextLine().trim();
 		
 		while(inputName.isEmpty()) {
 			System.out.println("성함을 다시 입력해주세요");
-			inputName = sc.nextLine().trim();
+			inputName = SC.nextLine().trim();
 		}
 		Controller.setName(inputName);
 	}

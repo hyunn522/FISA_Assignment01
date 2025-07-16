@@ -13,8 +13,4 @@ public class FinishView {
 		System.out.println("-------------------------");
 	}
 
-	public static void getResult(int personId) {
-		Controller.getJobs(personId);
-	}
-	
 }
